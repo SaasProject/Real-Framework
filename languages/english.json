@@ -1,0 +1,237 @@
+{
+	"English" : {
+		"commons" : {
+			"search" : "Search",
+			"itemsPerPage" : "Items Per Page",
+			"viewDetails" : "View Details",
+			"delete" : "Delete",
+			"edit" : "Edit",
+			"save" : "Save",
+			"close" : "Close",
+			"cancel" : "Cancer",
+			"requiredLabel1" : "Fields marked with an asterisk(",
+			"requiredLabel2" : ") are required.",
+			"add" : "Add",
+			"fmrequiredFields" : "Please fill up all the required fields",
+			"confirm" : "Confirm",
+			"confirmPass" : "Confirm Password doesn't match.",
+			"containPass" : "Passwords should contain lowercase, uppercase, numbers and at least 8 characters",
+			"invalidEmail" : "Invalid email",
+			"invalidNo" : "Please Input numbers only to number fields.",
+			"hiUser1" : "Hi ",
+			"hiUser2" : "!"
+		},
+		"loginPage" : {
+			"login": "Login",
+			"email": "Email",
+			"password": "Password",
+			"loginButton": "Login",
+			"forgotPass": "Forgot Password?",
+			"forgotPassModal" : {
+				"accountHelp": "Account Help",
+				"email": "Type-in your email address to recover your account",
+				"send": "Send",
+				"close" : "Close"
+			},
+			"flash" : {
+				"atEmail": "Please include an '@' in the email address. '[email]' is missing an '@'.",
+				"wrongEmailPass": "Email or password is incorrect",
+				"emailNotReg": "Email address is not registered",
+				"emailSent": "Email sent",
+				"emailInvalid": "Invalid email"
+			}
+		},
+		"navBar" : {
+			"home": "Saas App",
+			"assets": "Assets",
+			"accounts": "Accounts",
+			"devices": "Devices",
+			"warehouses": "Warehouses",
+			"fields": "Fields",
+			"save" : "Save",
+			"cancel" : "Cancel",
+			"close" : "Close",
+			"account" : {
+				"accountSettings": "Settings",
+				"changePassword": "Change Password",
+				"logout": "Log Out"
+			}
+		},
+		"accountSettings" : {
+			"buttons": {
+				"changeProfilePicture" : "Change Profile Picture",
+				"saveUser" : "Save",
+				"browse" : "Browse",
+				"saveChanges" : "Save Changes",
+				"remove" : "Remove",
+				"cancel" : "Cancel"
+			},
+			"labels": {
+				"settings" : "Settings",
+				"modalTitle" : "Update Profile Picture",
+				"requiredLabel1" : "Fields marked with an asterisk(",
+				"requiredLabel2" : ") are required.",
+				"languagePreference" : "Language Preference",
+				"changeDefaultLanguage": "Change Default Language",
+				"selectLanguage": "Select Language",
+				"selectSetting" : "Select Setting",
+				"accountSelect" : "Account Settings",
+				"systemSelect" : "System Settings"
+			},
+			"flashMessages" : {
+				"inputOldPassword" : "Enter Old Password",
+				"inputNewPassword" : "Enter New Password",
+				"profilePicUpdated" : "Profile Picture Updated",
+				"profilePicDeleted" : "Profile Picture Deleted",
+				"invalidImgFile" : "Only PNG files, JPG files or JPEG files are allowed.",
+				"userUpdated" : "User Updated",
+				"profilePicDeleteSure" : "Are you sure you want to delete your profile picture?",
+				"defaultLanguageChangedTo1" : "Default language changed to ",
+				"defaultLanguageChangedTo2" : ""
+			}
+		},
+		"manageAccounts" : {
+			"buttons": {
+				"createNewUser" : "Create New User",
+				"addUser" : "Add User"
+			},
+			"labels": {
+				"navTitle" : "User Accounts",
+				"modalTitleAdd" : "Add User",
+				"modalTitleUpdate" : "Update User"
+			},
+			"flashMessages" : {
+				"emailErr" : "Email is already taken",
+				"userAdded" : "User Added",
+				"userUpdated" : "User Updated",
+				"confirmMessage" : "Are you sure you want to delete this user ?",
+				"userDeleted" : "User Deleted",
+				"oldPasswordIsIncorrect" : "Old Password is incorrect",
+				"passwordChangedSuccessfully" : "Password Changed Successfully"
+			}
+		},
+		"devices" : {
+			"labels": {
+				"header" : "Warehouse Devices",
+				"add" : "Create New Device",
+				"modal_add" : "Add Device",
+				"modal_update" : "Update Device",
+				"flash_taken_1" : "Device_id “",
+				"flash_taken_2" : "” is already taken",
+				"flash_add" : "Device Added",
+				"flash_update" : "Device Updated",
+				"flash_confirm_1" : "Are you sure to delete [",
+				"flash_confirm_2" : "] ?",
+				"flash_delete" : "Device Deleted",
+				"flash_exist" : "Device already exists"
+			}
+		},
+		"warehouse" : {
+			"labels": {
+				"header" : "Warehouses",
+				"add" : "Add New Warehouse",
+				"modal_add" : "Add Warehouse",
+				"modal_update" : "Update Warehouse",
+				"flash_taken" : " already exists",
+				"flash_add" : "Warehouse Added",
+				"flash_update" : "Warehouse Updated",
+				"flash_confirm_1" : "Are you sure to delete [",
+				"flash_confirm_2" : "] ?",
+				"flash_delete" : "Warehouse Deleted",
+				"flash_exist" : "Warehouse already exists"
+			}
+		},
+		"assets": {
+            "labels": {
+                "asset": "Asset",
+                "filter": "Filter",
+                "all": "all",
+				"search1": "Search",
+				"search2": "",
+                "search3": "here...",
+                "addModal": "Add Modal",
+                "updateModal": "Update Modal",
+                "reportModal": "Customize Report Fields",
+                "selectColumns": "Select the columns you want to display in the report",
+                "note1": "Not selecting anything will consider all fields",
+                "note2": "Hold Ctrl key when selecting multiple items"
+            },
+            "buttons": {
+                "new": "New",
+                "generate": "Generate Report",
+                "today": "Today",
+				"clear": "Clear",
+				"done": "Done",
+                "download": "Download"
+            },
+            "flashMessages": {
+                "exists": "Tag already exists",
+                "added": "Asset Added",
+                "updated": "Asset Updated",
+                "confirmDelete1": "Are you sure you want to delete ",
+                "confirmDelete2": "?",
+                "deleted": "Asset Deleted"
+            }
+        },
+        "fields": {
+            "labels":{
+                "customize": "Customize Fields",
+                "user": "User",
+                "asset": "Asset",
+                "rfid_scanner": "RFID Scanner",
+                "warehouse": "Warehouse",
+                "addField": "Add field here",
+				"required": "Required",
+				"notRequired": "Not Required",
+				"unique": "Unique",
+				"notUnique": "Not Unique",
+                "type": "Select type of field",
+                "text": "text",
+                "number": "number",
+                "email": "email",
+                "password": "password",
+                "textarea": "textarea",
+                "checkbox": "checkbox",
+                "dropdown": "dropdown",
+                "radio": "radio",
+				"date": "date",
+				"note1": "Enter option values separated by comma ','",
+                "tableName": "Name",
+                "tableType": "Type",
+                "default": "DEFAULT"
+            },
+            "flashMessages":{
+				"added": "Field successfully added",
+				"notAdded": "Field not added",
+				"updated": "Field successfully updated",
+				"notUpdated": "Field not updated",
+				"deleted": "Field successfully deleted",
+				"notDeleted": "Field not deleted",
+				"dbError": "Failed to get fields",
+				"empty": "Field must not be empty",
+				"exists": "Field already exists",
+				"noOptions":"Please input option values",
+                "confirmDelete1": "Are you sure you want to delete ",
+                "confirmDelete2": "?"            }
+        },
+        "home":{
+            "labels":{
+                "warehouses": "Warehouses",
+                "totalCap": "Total Warehouse Capacity",
+                "totalStored": "Total Assets Stored",
+                "types": "Asset Types",
+                "latest": "Latest Assets",
+                "tag": "Asset Tag",
+                "date": "Date"
+            }
+        },
+		 "changePW":{
+            "labels":{
+                "title": "Change Password",
+                "oldPW": "Old Password",
+                "newPW": "New Password",
+                "confirmPW": "Confirm New Password"
+            }
+        }
+	}
+}

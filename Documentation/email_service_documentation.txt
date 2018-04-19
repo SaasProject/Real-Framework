@@ -1,0 +1,62 @@
+Email Service Documentation
+
+Author: Jano Omugtong
+Date Created: April 06, 2018
+Last Updated: April 06, 2018
+
+Description: Sends email
+
+Prerequisite npm packages:
+- nodemailer
+- q
+
+Methods:
+- sendMail
+
+How to use:
+// create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: '...@gmail.com', // the email address that will send
+            pass: '[actualpassword]'  // the password of the email address
+        }
+    });
+
+// setup email data with unicode symbols
+    let mailOptions = {
+        from: '...', // sender address
+        to: mailInfos.to, // list of receivers
+        subject: mailInfos.subject, // Subject line
+        text: mailInfos.text, // plain text body
+        html: mailInfos.html // html body
+    };
+
+// send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            deferred.reject(error);
+        }
+            deferred.resolve();
+    });
+
+
+--------------------------------------------------------------------------------------------------
+- sendMail (mailInfos)
+
+Parameters:
+    mailInfos: {
+        to: '',         // receivers
+        subject: '',    // subject line
+        text: '',       // plain text body
+        html: ''        // html body
+    }
+
+Description:
+    sends the mail.
+
+Returns:
+    if successful, the email is sent. 
+    if the email address is not valid, or an error occurs, returns error.
+
+--------------------------------------------------------------------------------------------------

@@ -1,0 +1,56 @@
+Login Documentation
+
+Author: Jano Omugtong
+Date Created: April 06, 2018
+Last Updated: April 06, 2018
+
+Description: Logs in a user to the system
+
+Prerequisite npm packages:
+- mongodb
+- jsonwebtoken
+- q
+
+Other prerequisites:
+- config.json @ root directory
+
+Methods:
+- authenticate (@ user.service)
+
+How to use:
+userService.authenticate(req.body.email, req.body.password)
+.then(function (token) {
+    if (token) {
+        // authentication successful
+        // save JWT token in the session to make it available to the angular app
+        req.session.token = token.token;
+        req.session.user = token.user;
+        // redirect to returnUrl
+        var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/';
+        res.redirect(returnUrl);
+    } else {
+        // authentication failed
+        return res.render('login', { error: req.session.lang.loginPage.flash.wrongEmailPass, email: req.body.email, forgotPassEmail: req.body.email, languages: req.session.lang});
+    }
+})
+.catch(function (err) {
+    return res.render('login', { error: 'An error occurred' });
+});
+
+--------------------------------------------------------------------------------------------------
+- authenticate (@ user.service)
+function authenticate(email, password)
+
+Parameters:
+    email - email address
+    password - String
+
+Description:
+    check the existence of the of the email in the database, then compare parameter password with hash property of user
+    create token then returns token and user object.
+
+Returns:
+    if successful, returns token and user object inside one object.
+    otherwise, it returns the error object (from MongoDB).
+
+--------------------------------------------------------------------------------------------------

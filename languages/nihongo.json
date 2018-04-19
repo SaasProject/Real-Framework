@@ -1,0 +1,238 @@
+{
+	"日本語" : {
+		"commons" : {
+			"search" : "検索",
+			"itemsPerPage" : "各ページの項目数表示",
+			"viewDetails" : "詳細を表示",
+			"delete" : "削除",
+			"edit" : "編集",
+			"save" : "保存",
+			"close" : "閉じる",
+			"cancel" : "キャンセル",
+			"requiredLabel1" : "「",
+			"requiredLabel2" : "」有り場合、必要です",
+			"add" : "追加",
+			"fmrequiredFields" : "必要なフィールドを入力してください",
+			"confirm" : "確認",
+			"confirmPass" : "新しいパスワードが一致しません。もう一度入力してください。",
+			"containPass" : "パスワードには、小文字、大文字、数字、少なくとも8文字",
+			"invalidEmail" : "無効なメール",
+			"invalidNo" : "番号は番号フィールドにのみ入力してください。",
+			"hiUser1" : "こんにちは, ",
+			"hiUser2" : "さん!"
+		},
+		"loginPage" : {
+			"login": "ログイン",
+			"email": "メール",
+			"password": "パスワード",
+			"loginButton": "ログイン",
+			"forgotPass": "パスワードを忘れましたか？",
+			"forgotPassModal" : {
+				"accountHelp": "ヘルプ",
+				"email": "パスワードリセットのため、メールを入力してください。",
+				"send": "送る",
+				"close" : "閉じる"
+			},
+			"flash" : {
+				"atEmail": "「＠」を含めてください。メールに「＠」がない",
+				"wrongEmailPass": "メールまたはパスワードが間違った",
+				"emailNotReg": "メールが　登録されていない。",
+				"emailSent": "メールが送られた。",
+				"emailInvalid": "無効なメール"
+			}
+		},
+		"navBar" : {
+			"home": "Saasアプ",
+			"assets": "資産",
+			"accounts": "アカウント",
+			"devices": "デバイス",
+			"warehouses": "ウエアハウス",
+			"fields": "フィールド",
+			"save" : "更新",
+			"cancel" : "取消",
+			"close" : "閉じる",
+			"account" : {
+				"accountSettings": "設定",
+				"changePassword": "パスワード変更",
+				"logout": "ログアウト"
+			}
+		},
+		"accountSettings" : {
+			"buttons": {
+				"changeProfilePicture" : "プロフィール画像を変更",
+				"saveUser" : "更新",
+				"browse" : "ブラウズ",
+				"saveChanges" : "更新",
+				"remove" : "除去する",
+				"cancel" : "取消"
+			},
+			"labels": {
+				"settings" : "設定",
+				"modalTitle" : "プロフィール画像を更新する",
+				"requiredLabel1" : "アスタリスク（",
+				"requiredLabel2" : "）の付いたフィールドは必須です。",
+				"languagePreference" : "言語の設定",
+				"changeDefaultLanguage": "デフォルト言語を変更する",
+				"selectLanguage": "言語を選択する",
+				"selectSetting" : "設定を選択",
+				"accountSelect" : "アカウント設定",
+				"systemSelect" : "システム設定"
+			},
+			"flashMessages" : {
+				"inputOldPassword" : "古いパスワードを入力してください",
+				"inputNewPassword" : "新しいパスワードを入力してください",
+				"profilePicUpdated" : "プロフィールの写真が更新された",
+				"profilePicDeleted" : "プロフィールの写真が削除された",
+				"invalidImgFile" : "PNGファイル、JPGファイル、またはJPEGファイルのみが許可されます。",
+				"userUpdated" : "ユーザーが更新された",
+				"profilePicDeleteSure" : "プロフィール写真を削除してもよろしいですか？",
+				"defaultLanguageChangedTo1" : "デフォルト言語が",
+				"defaultLanguageChangedTo2" : "に変更されました"
+			}
+		},
+		"manageAccounts" : {
+			"buttons": {
+				"createNewUser" : "新しいユーザー追加",
+				"addUser" : "ユーザーの追加"
+			},
+			"labels": {
+				"navTitle" : "ユーザーのアカウント",
+				"modalTitleAdd" : "ユーザーの追加",
+				"modalTitleUpdate" : "ユーザーの更新"
+			},
+			"flashMessages" : {
+				"emailErr" : "メールが存在している",
+				"userAdded" : "ユーザーが追加された",
+				"userUpdated" : "ユーザーが更新された",
+				"confirmMessage" : "ユーザーを削除する？",
+				"userDeleted" : "ユーザーが削除された",
+				"oldPasswordIsIncorrect" : "古いパスワードが間違っている。",
+				"passwordChangedSuccessfully" : "パスワードが変更された"
+			}
+		},
+		"devices" : {
+			"labels": {
+				"header" : "ウエアハウスのデバイス",
+				"add" : "あたらしいデバイス追加",
+				"modal_add" : "デバイスの追加",
+				"modal_update" : "デバイスの更新",
+				"flash_taken_1" : "“",
+				"flash_taken_2" : "” が存在している",
+				"flash_add" : "デバイスが追加された",
+				"flash_update" : "デバイスが更新された",
+				"flash_confirm_1" : "[",
+				"flash_confirm_2" : "]を削除する？",
+				"flash_delete" : "デバイスが削除された",
+				"flash_exist" : "デバイスは既に存在します"
+			}
+		},
+		"warehouse" : {
+			"labels": {
+				"header" : "ウエアハウス",
+				"add" : "あたらしいウエアハウス追加",
+				"modal_add" : "ウエアハウスの追加",
+				"modal_update" : "ウエアハウスの更新",
+				"flash_taken" : "が存在している",
+				"flash_add" : "ウエアハウスが追加された",
+				"flash_update" : "ウエアハウスが更新された",
+				"flash_confirm_1" : "[",
+				"flash_confirm_2" : "]を削除する？",
+				"flash_delete" : "ウエアハウスが削除された",
+				"flash_exist" : "ウエアハウスが存在している"
+			}
+		},
+		"assets": {
+            "labels": {
+                "asset": "資産",
+                "filter": "フィルタ",
+                "all": "全部",
+                "search1": "ここで",
+				"search2": "を",
+				"search3": "探す",
+                "addModal": "資産の追加",
+                "updateModal": "資産の更新",
+                "reportModal": "カスタマイズレポートフィールド",
+                "selectColumns": "レポートに表示したいフィールドを選択してください",
+                "note1": "何ももえらばなかったら、ぜんぶのフィールドが含まれる",
+                "note2": "マルチフィールドを選択しながらCtrlキーを押しる"
+            },
+            "buttons": {
+                "new": "新しい",
+                "generate": "レポーとをせいせいする",
+                "today": "今日",
+				"clear": "クリア",
+				"done": "完了",
+                "download": "ダウンロード"
+            },
+            "flashMessages": {
+                "exists": "タッグが存在している",
+                "added": "資産が追加された",
+                "updated": "資産が更新された",
+                "confirmDelete1": "",
+                "confirmDelete2": "を削除する?",
+                "deleted": "資産が削除された"
+            }
+        },
+        "fields": {
+            "labels":{
+                "customize": "カスタマイズフィールド",
+                "user": "ユーザー",
+                "asset": "資産",
+                "rfid_scanner": "RFID スキャナー",
+                "warehouse": "ウエアハウス",
+                "addField": "ここにフィールドを追加する",
+				"required": "必要",
+				"notRequired": "不要",
+				"unique": "一意",
+				"notUnique": "一意ではない",
+                "type": "フィールドの種類を選択",
+                "text": "テキスト",
+                "number": "数字",
+                "email": "メール",
+                "password": "パスワード",
+                "textarea": "テキストエリア",
+                "checkbox": "チェックボックス",
+                "dropdown": "ドロップダウン",
+                "radio": "ラジオボタン",
+				"date": "日付",
+				"note1": "カンマで区切られた各のオプション値を入力してください",
+                "tableName": "名",
+                "tableType": "種類",
+                "default": "デフォルト"
+            },
+            "flashMessages":{
+				"added": "フィールドが追加された",
+				"notAdded": "フィールドが追加されなかった",
+				"updated": "フィールドが更新された",
+				"notUpdated": "フィールドが更新されなかった",
+				"deleted": "フィールドが削除された",
+				"notDeleted": "フィールドが削除されなかった",
+				"dbError": "フィールドをとれなかった",
+				"empty": "フィールドは空であってはいけません",
+				"exists": "フィールドが存在している",
+				"noOptions":"各のオプション値を入力してください",
+                "confirmDelete1": "",
+                "confirmDelete2": "を削除する?"
+            }
+        },
+        "home":{
+            "labels":{
+                "warehouses": "ウエアハウス",
+                "totalCap": "ウエアハウスの容量",
+                "totalStored": "資産合計",
+                "types": "資産の種類",
+                "latest": "最新の資産",
+                "tag": "資産のタッグ",
+                "date": "日付"
+            }
+        },
+		 "changePW":{
+            "labels":{
+                "title": "パスワードの変更",
+                "oldPW": "古いパスワード",
+                "newPW": "新しいパスワード",
+                "confirmPW": "確認"
+            }
+        }
+	}
+}

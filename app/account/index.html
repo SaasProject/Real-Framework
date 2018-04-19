@@ -1,0 +1,166 @@
+<div style="width:100%; margin-left: auto; margin-right: auto;">
+<!--<div ng-class="{'accountSettingsAdmin' : isAdmin,  'accountSettingsUser' : !isAdmin}">-->
+<h1>{{selectedLanguage.accountSettings.labels.settings}}</h1>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{selectedLanguage.accountSettings.labels.modalTitle}}<h4>
+    </div>
+    <div id="imgFileModal" class="alert alert-danger" ng-show="showPicFlash">
+      {{selectedLanguage.accountSettings.flashMessages.invalidImgFile}}.
+    </div>
+    <div class="modal-body">
+        <div class="cropTableRow">
+            <div id="parentProfileDiv" class="cropTableCell box">
+                <img id="profilepicture" class="my-image" ng-src="{{modalPic}}">
+            </div>
+        </div>
+    </div>
+    <div class="modal-body2">
+        
+    </div>
+    <div ng-show="uploading" class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            <span class="sr-only">45% Complete</span>
+        </div>
+    </div>
+    <div class="modal-footer" >
+        <!--<form action="/upload" method="POST" enctype="multipart/form-data">-->
+            <label id="uploadFile" class="btn btn-success">
+                <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;{{selectedLanguage.accountSettings.buttons.browse}}
+                <input id="profileImg" type="file" accept="image/x-png,image/jpeg" ng-disabled="uploading" file-model="file.upload" name="myfile" style="display: none;" onchange="angular.element(this).scope().photoChanged(this.files)" onclick="this.value=null">
+            </label>
+            <button class="btn btn-primary" ng-click="Submit(); resetModalButtons()" ng-disabled="!isSave">
+                <span class="glyphicon glyphicon-floppy-disk"></span> {{selectedLanguage.accountSettings.buttons.saveChanges}}</button>
+            <button class="btn btn-danger" ng-click="deletePic(); resetModalButtons()" ng-disabled="!isDelete">
+                <span class="glyphicon glyphicon-remove"></span> {{selectedLanguage.accountSettings.buttons.remove}}</button>
+            <button type="button" class="btn btn-info" ng-click="resetModalPic(); resetModalButtons()" data-dismiss="modal">{{selectedLanguage.accountSettings.buttons.cancel}}</button>
+        <!--</form>-->
+        <br>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+<div class="col-sm-3">
+    <!--<div class="panel panel-primary">
+        <div class="panel-heading">System Settings</div>
+        <div class="panel-body">
+            <label>{{selectedLanguage.accountSettings.labels.changeDefaultLanguage}}</label>
+            <select class="form-control" ng-model="selDefaultLanguage" ng-change="changeDefaultLanguage(selDefaultLanguage)">
+                <option value="" selected="selected" hidden hidden>{{selectedLanguage.accountSettings.labels.selectLanguage}}</option>
+                <option value="english">English</option>
+                <option value="nihongo">日本語</option>
+            </select>                         
+        </div>
+    </div>-->
+    <select class="form-control" ng-model="selSettings" ng-change="showSettings(selSettings)">
+        <option value="" selected="selected" hidden hidden>{{selectedLanguage.accountSettings.labels.selectSetting}}</option>
+        <option value="system" ng-show="isAdmin">{{selectedLanguage.accountSettings.labels.systemSelect}}</option>
+        <option value="account">{{selectedLanguage.accountSettings.labels.accountSelect}}</option>
+    </select>
+</div>
+<div class="col-sm-9" ng-show="isSystemSetting">
+    <label>{{selectedLanguage.accountSettings.labels.changeDefaultLanguage}}</label>
+    <div id="defaultLangChangeAlert" class="alert alert-success" ng-show="showLangChangeFlash">
+      {{flashDefaultLangChanged}}
+    </div>
+    <select class="form-control" ng-model="selDefaultLanguage" ng-change="changeDefaultLanguage(selDefaultLanguage); defaultLanguageChangeSuccess(selDefaultLanguage)">
+        <option value="" selected="selected" hidden hidden>{{dropDefLangSel}}</option>
+        <option value="english">English</option>
+        <option value="nihongo">日本語</option>
+    </select>
+</div>
+<div class="col-sm-9" ng-show="isAccountSetting">
+    <!-- flash message div -->
+    <div class="flash-message" ng-if="flash" ng-show = "!changePasswordModal">
+        <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <br/>
+            <div class="avatar-circle-big" ng-style="bgColor" ng-show="profilePicUrl == ''">
+                <span class="initials-big noselect" ng-show="profilePicUrl == ''">{{initials}}</span>
+            </div>
+            <img class="avatar-image-big" ng-src="{{profilePic}}" ng-show="profilePicUrl !== ''">
+            <br><br>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-pencil"></span> {{selectedLanguage.accountSettings.buttons.changeProfilePicture}}</button>
+            <br><br>
+            <div class="panel panel-info">
+                <div class="panel-heading">{{selectedLanguage.accountSettings.labels.languagePreference}}</div>
+                <div class="panel-body">
+                    <select class="form-control center-height" ng-model="selLanguage" ng-change="changeLanguage(selLanguage)">
+                        <option value="" selected="selected" hidden hidden>{{dropLangSel}}</option>
+                        <option value="english">English</option>
+                        <option value="nihongo">日本語</option>
+                    </select>                     
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1 hidden-md hidden-s hidden-lg"><hr class="hr"></div>
+        <div class="form-container col-md-8">
+                
+                <div ng-repeat="field in fields" ng-if="field.name !='password'">
+                    <label for="{{field.name}}" style="text-transform: capitalize;">{{field.name}}:</label>
+                    <span style = "color:red" ng-if="field.required">*</span>
+
+                    <!--show date as label-->
+                    <p ng-show="showDate(field.type)" ng-model="aUsers[field.name]">{{aUsers[field.name]}}</p>
+
+                    <!--show textbox-->
+                    <input data="{{field.type}}" type="text" ng-show="showTextBox(field.type)" ng-model="aUsers[field.name]" class="form-control" ng-required=field.required ng-readonly = "isUser && readOnly(field.name)">
+
+                    <!-- show email -->
+                    <input name="{{field.type}}" data="{{field.type}}" type="email" ng-show="showEmail(field.type)" ng-model="aUsers[field.name]" class="form-control" ng-required=field.required ng-readonly = "isUser && readOnly(field.name)">
+
+                    <!-- show number -->
+                    <input name="{{field.type}}" data="{{field.type}}" type="text" ng-show="showNumber(field.type)" ng-model="aUsers[field.name]" class="form-control" ng-required=field.required>
+
+                    <!-- show password -->
+                    <input name="{{field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="showPassword(field.type)" ng-model="aUsers[field.name]" class="form-control" ng-required=field.required>
+
+                    <!-- show confirm password -->
+                    <label ng-show="showPassword(field.type)" for=field.name>Confirm {{field.name}}: </label>
+                    <input name="{{'confirm '+field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="showPassword(field.type)" ng-model="confirmPassword[field.name]" class="form-control">
+
+                    <!-- show text area -->
+                    <textarea data="{{field.type}}" ng-show="showTextArea(field.type)" ng-model="aUsers[field.name]" class="form-control" ng-required=field.required rows="4" cols="50"></textarea>
+
+                    <!-- show checkbox -->
+                    <div class="{{'checkBoxAdd '+field.name}}" name="{{'checkBoxInput '+field.type}}" ng-repeat="option in field.options" data="{{field.type}}" ng-show="showCheckBox(field.type)">
+                        <input class="{{option}}" type="checkbox" name="{{option}}" ng-model="optionSelected" ng-checked="isChecked(field.name, option, field.type)" data="{{option}}" ng-click="pushToAUsers(field.name, option)">{{option}}<br>
+                    </div>
+
+                    <!-- show radio -->
+                    <div ng-repeat="option in field.options" data="{{field.type}}" ng-show="showRadio(field.type)">
+                        <input class="{{option}}" type="radio" name="userRadioButton" ng-model="radioSelected" ng-change="putToModel(option, field.name)" value="{{option}}" ng-checked="isRadioSelected(field.name, option, field.type)">{{option}}<br>
+                    </div>
+
+                    <!-- show date -->
+                    <input data="{{field.type}}" type="date" ng-show="showDate(field.type)" ng-model="tempDate" ng-change="pushDateToAUsers(field.name, this.tempDate)" class="form-control addTicketDateInput" ng-required=field.required>
+
+                    <!-- show dropdown -->
+                    <select class="form-control" data="{{field.type}}" ng-show="showDropDown(field.type)" ng-model="aUsers[field.name]" ng-disabled = "isUser && readOnly(field.name)">
+                        <option value="" ng-if="!field.required"></option>
+                        <option ng-repeat="option in field.options">{{option}}</option>
+                    </select>
+                </div>
+    			
+    			<small><i>{{selectedLanguage.commons.requiredLabel1}}</i><span style = "color:red">*</span><i>{{selectedLanguage.commons.requiredLabel2}}</i></small>
+               
+    		   <br>
+                <div class="form-group" >
+                    <button class="btn btn-primary" ng-click="vm.saveUser()" style="float:right">{{selectedLanguage.accountSettings.buttons.saveUser}}</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+</div>

@@ -1,0 +1,194 @@
+<div style = "text-align:center" class = "spinner" ng-show = "loading"> 
+        <img src="loader.gif"/>
+</div>
+
+<div class="flash-message" ng-if="flash.show" ng-show="showMainFlash && !changePasswordModal">
+    <div class="{{'alert alert-' + flash.type}}">
+        {{flash.message}}
+        <a href="" ng-click="flash.show = !flash.show"><span class="glyphicon glyphicon-remove pull-right"></span></a> 
+    </div>
+</div>
+<div>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+                
+            <!-- Modal content-->
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{type == 'add' ? selectedLanguage.assets.labels.addModal : selectedLanguage.assets.labels.updateModal}}</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-show="showAddFlash" class="{{'alert alert-' + flash.type}}">
+                    {{flash.message}}
+                </div>
+                <form>
+					<div ng-repeat = "field in fields">
+                        <label for = "{{field.name}}"> {{field.name}} </label>
+                        <span style = "color:red" ng-if="field.required">*</span>
+						<!--<input type = "{{field.type}}" id = "{{field.name}}" ng-model = "newAsset[field.name]" class = "form-control" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" required="{{field.required}}"><br>-->
+                        <!--<div ng-show="showCheckBox(field.type) && type != 'add'" ng-repeat="options in newAsset[field.name] track by $index" style="float:left">
+                            {{options}}.&nbsp;
+                        </div><br ng-show="showCheckBox(field.type) && !readOnly"><br ng-show="showCheckBox(field.type) && readOnly">-->
+                        <!--<p ng-show="showRadio(field.type) && type != 'add' && readOnly" ng-model="newAsset[field.name]">{{newAsset[field.name]}}</p>-->
+                        <p ng-show="showDate(field.type) && type != 'add' && readOnly" ng-model="newAsset[field.name]">{{newAsset[field.name]}}</p>
+
+                        <!--show textbox-->
+                        <input data="{{field.type}}" type="text" ng-show="showTextBox(field.type)" ng-model="newAsset[field.name]" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" class="form-control" ng-required=field.required>
+
+                        <!-- show email -->
+                        <input name="{{field.type}}" data="{{field.type}}" type="email" ng-show="showEmail(field.type)" ng-model="newAsset[field.name]" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" class="form-control" ng-required=field.required>
+
+                        <!-- show number -->
+                        <input name="{{field.type}}" data="{{field.type}}" type="text" ng-show="showNumber(field.type)" ng-model="newAsset[field.name]" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" class="form-control" ng-required=field.required>
+
+                        <!-- show password -->
+                        <input name="{{field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="showPassword(field.type)" ng-model="newAsset[field.name]" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" class="form-control" ng-required=field.required>
+
+                        <!-- show confirm password -->
+                        <label ng-show="showPassword(field.type)" for=field.name>Confirm {{field.name}}: </label>
+                        <input name="{{'confirm '+field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="showPassword(field.type)" ng-model="confirmPassword[field.name]" class="form-control" ng-readonly="type != 'add' && (readOnly || field.name == 'asset_tag')">
+
+                        <!-- show text area -->
+                        <textarea data="{{field.type}}" ng-show="showTextArea(field.type)" ng-model="newAsset[field.name]" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" class="form-control" ng-required=field.required rows="4" cols="50"></textarea>
+
+                        <!-- show checkbox -->
+                        <div class="{{'checkBoxAdd '+field.name}}" name="checkBoxInput" ng-repeat="option in field.options" data="{{field.type}}" ng-show="showCheckBox(field.type) && !(type != 'add' && (field.name == 'asset_tag'))">
+                            <input class="{{option}}" type="checkbox" name="{{option}}" ng-model="optionSelected" ng-checked="isChecked(field.name, option, field.type)" data="{{option}}" ng-disabled="readOnly && type!='add'" ng-click="pushToAAssets(field.name, option)">{{option}}<br>
+                        </div>
+
+                        <!-- show radio -->
+                        <div ng-repeat="option in field.options" data="{{field.type}}" ng-show="showRadio(field.type) && !(type != 'add' && (field.name == 'asset_tag'))">
+                            <input class="{{option}}" type="radio" name="options" ng-model="radioSelected" ng-change="putToModel(option, field.name)" ng-disabled="readOnly && type!='add'" ng-hide = "" value="{{option}}" ng-checked="isRadioSelected(field.name, option, field.type)">{{option}}<br>
+                        </div>
+
+                        <!-- show date -->
+                        <input data="{{field.type}}" type="date" ng-show="(showDate(field.type) && type == 'add') || (type != 'add' && readOnly == false && showDate(field.type))" ng-model="tempDate" ng-change="pushDateToAAssets(field.name, this.tempDate)" class="form-control addTicketDateInput" ng-required=field.required>
+
+                        <!-- show dropdown -->
+                        <select class="form-control" data="{{field.type}}" ng-show="showDropDown(field.type)" ng-disabled = "type != 'add' && (readOnly || field.name == 'asset_tag')" ng-model="newAsset[field.name]" ng-required="field.required">
+                            <option value="" ng-if="!field.required"></option>
+                            <!-- <option value="" ng-if="field.required" selected hidden></option> -->
+                            <option ng-repeat="option in field.options" ng-if="field.name != 'location'">{{option}}</option>
+                            <!-- added by jeremy - warehouses as locations -->
+                            <option ng-repeat="warehouse in warehouses" ng-if="field.name =='location'">{{warehouse.name}}</option>
+                        </select>
+
+                        
+					</div>
+					
+					<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span>{{selectedLanguage.commons.requiredLabel2}}</i></small>
+                
+			</div>
+					<div class = "modal-footer">
+                    <button class="btn btn-primary" ng-click="addOrUpdateAsset()" ng-if = "type == 'add'">{{selectedLanguage.commons.add}}</button>
+					<button class="btn btn-primary" ng-click="addOrUpdateAsset()" ng-if = "type != 'add' && readOnly">{{selectedLanguage.commons.edit}}</button>
+					<button class="btn btn-primary" ng-if = "type != 'add' && !readOnly" ng-click="saveUpdate()">{{selectedLanguage.commons.save}}</button>
+                    <button type="button" class="btn btn-danger" ng-click="restart()" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
+					</div>
+                </form>
+           
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reportFilterModal" role="dialog">
+        <div class="modal-dialog">
+                
+            <!-- Modal content-->
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{selectedLanguage.assets.labels.reportModal}}</h4>
+            </div>
+            <div class="modal-body">
+                {{selectedLanguage.assets.labels.selectColumns}}
+                <form>
+					<select ng-model="reportColumns" class="form-control" multiple>
+                        <option ng-repeat="field in fields">{{field.name}}</option>
+                    </select>
+                </form>
+                <br>
+                <small>*{{selectedLanguage.assets.labels.note1}}</small>  <br>
+                <small>*{{selectedLanguage.assets.labels.note2}}</small>  <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-csv="getFilteredAssets()" csv-header="getColumns()" csv-column-order="getColumns()" filename="{{setFilename()}}.csv" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-download-alt"></span> {{selectedLanguage.assets.buttons.download}}
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
+            </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="row" ng-hide = "loading">
+        <div class="col-sm-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">{{selectedLanguage.assets.labels.asset}}</div>
+                <div class="panel-body">
+                    <div class="form-inline">    
+                        <button type="addButton" class="btn btn-info" ng-click="resetModal(); declareSelected()" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-plus"></span> {{selectedLanguage.assets.buttons.new}}
+                        </button>
+                        <button type="reportButton" class="btn btn-success" data-toggle="modal" data-target="#reportFilterModal" ng-click="resetReportColumns()">
+                            {{selectedLanguage.assets.buttons.generate}}
+                        </button>
+                    </div>                           
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">{{selectedLanguage.assets.labels.filter}}</div>
+                    <div class="panel-body">
+                        <div class="form-inline">
+                            <select class="form-control" ng-model="searchColumn" ng-change="search = {}">
+                                <option value="">{{selectedLanguage.assets.labels.all}}</option>
+                                <option ng-repeat="field in fields">{{field.name}}</option>
+                            </select>
+                            <input type ng-model="search[(searchColumn != '') ? searchColumn : '$']" class="form-control" placeholder="{{selectedLanguage.assets.labels.search1}} {{searchColumn}}{{searchColumn == '' ? '' : selectedLanguage.assets.labels.search2}} {{selectedLanguage.assets.labels.search3}}"/>     
+                            
+                            <div class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="searchDate" is-open="opened" placeholder="YYYY-MM-DD" clear-text="{{selectedLanguage.assets.buttons.clear}}" current-text="{{selectedLanguage.assets.buttons.clear}}" close-text="{{selectedLanguage.assets.buttons.done}}"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-primary" ng-click="opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+
+                            <label for="pageSize">{{selectedLanguage.commons.itemsPerPage}}:</label>
+                            <input id="pageSize" type="number" ng-model="pageSize" class="form-control" min="1" max="{{filtered_assets.length}}" />                     
+                        </div>                            
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="row" ng-hide = "loading">
+        <div class="col-sm-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>  
+                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id'" ng-class='sortClass(field.name)' class='cutOverflow'>{{field.name}}</th>       
+                        <th ng-click="setTo('updated_date')" ng-class="sortClass('updated_date')">updated_date</th>                    
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td ng-repeat="field in fields">
+                            <input type="text" class="form-control" ng-model="search[field.name]"/>
+                        </td>
+                    </tr> -->
+                    <tr ng-repeat="asset in filtered_assets | pagination: (currentPage - 1) * pageSize | limitTo: pageSize">
+                        <td ng-repeat="field in fields" ng-if="field.name != '_id'" class="cutOverflow">{{(!$parent.asset[field.name]) ? ($parent.asset[field.name] = '') : $parent.asset[field.name]}}</td>                        
+                         <td>{{asset['updated_date']}}</td>
+                        <td>
+                            <a><i class="fa fa-list-alt" aria-hidden="true" ng-click="editModal(asset); declareSelected()" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" title="{{selectedLanguage.commons.viewDetails}}"></i><a>
+                            |
+                            <a><i class="fa fa-trash" aria-hidden="true" ng-click="deleteAsset(asset)" data-toggle="tooltip" title="{{selectedLanguage.commons.delete}}"></i></a>                           
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="filtered_assets.length" ng-model="currentPage" items-per-page="pageSize" boundary-links="true" max-size="3" force-ellipses="true" first-text="<<" previous-text="<" next-text=">" last-text=">>"></ul>
+        </div>
+    </div>
+</div>

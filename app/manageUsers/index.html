@@ -1,0 +1,191 @@
+<h2>{{selectedLanguage.manageAccounts.labels.navTitle}}</h2>
+
+<div style = "text-align:center" class = "spinner" ng-show = "loading"> 
+        <img src="loader.gif"/>
+</div>
+
+<div class="container">
+
+<div ng-show="showMainFlash && !changePasswordModal" class="flash-message" ng-if="flash">
+    <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{selectedLanguage.manageAccounts.labels.modalTitleAdd}}</h4>
+        </div>
+		        <div class="modal-body">
+				
+		          <div ng-show="showAddFlash" class="flash-message" ng-if="flash">
+        				<div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+					</div>
+		          <form name = "userAddForm">
+					 <div ng-repeat="field in fields">
+			          	<label for="{{field.name}}" style="text-transform: capitalize;">{{field.name}}:</label>
+			          	<span style = "color:red" ng-if="field.required">*</span>
+					
+			          	<!-- show input -->
+						<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="showInputType(field.type)" ng-model="newUser[field.name]" class="form-control" ng-required=field.required>
+						
+						<!-- show date -->
+						<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="field.type=='date'" ng-model="tempDate" class="form-control addTicketDateInput" ng-required=field.required ng-change="pushDateToAllEntry(field.name, this.tempDate)">
+
+						<!-- show confirm password -->
+						<label ng-show="field.type=='password'" for=field.name>Confirm {{field.name}}: </label>
+						<input name="{{'confirm '+field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="field.type=='password'" ng-model="confirmPassword[field.name]" class="form-control">
+
+						<!-- show text area -->
+							<textarea data="{{field.type}}" ng-show="field.type=='textarea'" ng-model="newUser[field.name]" class="form-control" ng-required=field.required rows="4" cols="50"></textarea>
+
+						<!-- show checkbox -->
+						<div class="{{'checkBoxAdd '+field.name}}" name="checkBoxInput" ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='checkbox'">
+							<input class="{{option}}" type="checkbox" name="{{option}}" ng-model="optionSelected" data="{{option}}" ng-click="pushTopushToANewUser(field.name, option)">{{option}}<br>
+						</div>
+
+						<!-- show radio -->
+						<div ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='radio'">
+							<input class="{{option}}" type="radio" name="options" ng-model="radioSelected" ng-change="putToModel(option, field.name)" value="{{option}}">{{option}}<br>
+						</div>
+
+						<!-- show dropdown -->
+						<select class="form-control" data="{{field.type}}" ng-show="field.type=='dropdown'" ng-model="newUser[field.name]">
+							<option value="" ng-if="!field.required"></option>
+							<option ng-repeat="option in field.options">{{option}}</option>
+						</select>
+					
+		          	</div>
+					
+					<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span> {{selectedLanguage.commons.requiredLabel2}}</i></small>
+		        	<br>
+		          </form>
+		        </div><!--modal body-->
+		        <div class="modal-footer" >
+		        	<button class="btn btn-primary" ng-click="addUser()">{{selectedLanguage.commons.save}}</button>
+					<button type="button" class="btn btn-danger" ng-click="restart()" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
+					<br>
+				</div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  <!-- Modal for Edit User -->
+  <div class="modal fade" id="editModal" role="dialog">
+		<div class="modal-dialog">
+		
+			<!-- Modal content-->
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<h4 class="modal-title">{{selectedLanguage.manageAccounts.labels.modalTitleUpdate}}</h4>
+				</div>
+        
+				<div class="modal-body">
+	
+					<div id="EditModalFlash" ng-show="showEditFlash" class="flash-message" ng-if="flash">
+    					<div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+					</div>
+					<form name = "userEditForm" novalidate>
+						<div ng-repeat="field in fields" ng-if="field.name !='password'">
+	          				<label for="{{field.name}}" style="text-transform: capitalize;">{{field.name}}:</label>
+	          				<span style = "color:red" ng-if="field.required">*</span>
+	          			
+	          				<p ng-show="field.type=='date' && unEditAble" ng-model="newUser[field.name]">{{newUser[field.name]}}</p>
+
+							<!-- show input -->
+							<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="showInputType(field.type)" ng-model="newUser[field.name]" class="form-control" ng-required=field.required ng-readonly="unEditAble || field.name == 'email'">
+							  
+							<!-- show date -->
+				          	<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="field.type=='date' && unEditAble == false" ng-model="tempDate" class="form-control addTicketDateInput" ng-required=field.required ng-readonly="unEditAble || field.name == 'email'" ng-change="pushDateToAllEntry(field.name, this.tempDate)">
+
+				          	<!-- show confirm password -->
+				          	<label ng-show="field.type=='password'" for=field.name>Confirm {{field.name}}: </label>
+				          	<input name="{{'confirm '+field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="field.type=='password'" ng-model="confirmPassword[field.name]" class="form-control" ng-readonly="unEditAble || field.name == 'email'">
+
+				          	<!-- show text area -->
+	  			          	<textarea data="{{field.type}}" ng-show="field.type=='textarea'" ng-model="newUser[field.name]" class="form-control" ng-required=field.required ng-readonly="unEditAble || field.name == 'email'" rows="4" cols="50"></textarea>
+
+				          	<!-- show checkbox -->
+				          	<div class="{{'checkBoxAdd '+field.name}}" name="checkBoxInput" ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='checkbox'" ng-readonly="unEditAble || field.name == 'email'">
+				          		<input class="{{option}}" type="checkbox" name="{{option}}" ng-model="optionSelected" data="{{option}}" ng-click="pushToANewUser(field.name, option)">{{option}}<br>
+				          	</div>
+
+				          	<!-- show radio -->
+				          	<div ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='radio'" ng-readonly="unEditAble || field.name == 'email'">
+				          		<input class="{{option}}" type="radio" name="options" ng-model="radioSelected" ng-change="putToModel(option, field.name)" value="{{option}}">{{option}}<br>
+				          	</div>
+
+				          	<!-- show dropdown -->
+				          	<select class="form-control" data="{{field.type}}" ng-show="field.type=='dropdown'" ng-model="newUser[field.name]" ng-readonly="unEditAble || field.name == 'email'">
+								<option value="" ng-if="!field.required"></option>
+								<option ng-repeat="option in field.options">{{option}}</option>
+							</select>
+
+          				</div>
+						
+						<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span> {{selectedLanguage.commons.requiredLabel2}}</i></small>
+        				<br>
+          			</form>
+				</div>
+				<div class="modal-footer"> 
+					<button class = "btn btn-primary" ng-click="enableEditing()" ng-show = "unEditAble">{{selectedLanguage.commons.edit}}</button>
+					<button class = "btn btn-primary" ng-click="updateUser()" ng-hide = "unEditAble">{{selectedLanguage.commons.save}}</button>
+					<button type="button" class="btn btn-danger" ng-click="restart()" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
+					<br>
+				</div>
+			</div>
+      
+		</div>
+  </div>
+</div>
+
+<div class="panel" ng-hide = "loading">
+	<div class="row">
+		<div class="col-sm-3">
+    		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" ng-click="modifyDropdown(); declareSelected()">{{selectedLanguage.manageAccounts.buttons.createNewUser}}</button>		      
+		</div>
+	</div>
+	<div class="row">
+		<br/>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+            <label for="search">{{selectedLanguage.commons.search}}</label>
+            <input id="search" type="text" ng-model="search" class="form-control">           
+		</div>
+		<div class="col-sm-2">
+		    <label for="pageSize">{{selectedLanguage.commons.itemsPerPage}}</label>
+			<input id="pageSize" type="number" ng-model="pageSize" class="form-control" min="1" max={{allUsers.length}}> 
+		</div> 
+	</div>
+</div>
+<div class="panel" ng-hide = "loading">
+	<table class="table table-striped table-condensed table-hover">
+		<thread>
+			<tr>
+				<th ng-repeat="field in fields" ng-click='sortColumn(field.name)' ng-class='sortClass(field.name)' class="cutOverflow">{{field.name}}</th>
+			</tr>
+		</thread>
+		<tbody>
+			<tr ng-repeat="u in allUsers | orderObjectBy : column : reverse | filter : search | pagination: (currentPage - 1) * pageSize | limitTo: pageSize ">
+				<td class="cutOverflow" ng-repeat="field in fields">{{u[field.name]}}</td>
+				<td>
+					<a><i class="fa fa-list-alt" aria-hidden="true" data-toggle = "modal" data-target = "#editModal" ng-click="editUser(u._id); declareSelected()" data-toggle="tooltip" title="{{selectedLanguage.commons.viewDetails}}"></i><a>
+					|
+					<a><i class="fa fa-trash" aria-hidden="true" ng-click="deleteUser(u._id)" data-toggle="tooltip" title="{{selectedLanguage.commons.delete}}"></i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<ul uib-pagination total-items="userLength" ng-model="currentPage" items-per-page="pageSize" boundary-links="true" max-size="4" force-ellipses="true" first-text="<<" previous-text="<" next-text=">" last-text=">>"></ul>
+</div>
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>-->

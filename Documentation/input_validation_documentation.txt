@@ -1,0 +1,108 @@
+Input Validation Documentation
+
+Author: Jano Omugtong
+Date Created: April 06, 2018
+Last Updated: April 06, 2018
+
+Description: Validate inputs: email, number, password and confirm password.
+
+Methods:
+- AllValid;
+- CheckEmails;
+- CheckNumbers;
+- CheckPasswords;
+- CheckConfirmPasswords;
+- checkPasswordChars
+
+How to use:
+add 'InputValidationService' to controller prerequisites
+
+<script src="app-services/inputValidation.service.js"></script>     // add script directory to index.html
+
+use method as condition in if statement.
+eg.:
+if(!InputValidationService.AllValid($rootScope.selectedLanguage.commons, $scope.fields, $scope.allEntry, $scope.confirmPassword)) {
+}
+
+--------------------------------------------------------------------------------------------------
+- AllValid(commons, fields, allEntry, confirmPassword)
+
+Parameters:
+    - commons(the error messages)   // string
+    - fields                        // array of fields
+    - allEntry                      // object for of all devices
+    - confirmPassword               // retyped password for checking
+
+Description:
+    executes CheckEmails, CheckNumbers, CheckPasswords, CheckConfirmPasswords functions in one function call.
+
+Returns:
+    if successful, returns boolean true. 
+    otherwise returns false.
+
+--------------------------------------------------------------------------------------------------
+- CheckEmails
+
+Parameters:
+    none
+
+Description:
+    check all element with name 'email'.
+
+Returns:
+    if successful, returns boolean true. 
+    otherwise returns false.
+
+--------------------------------------------------------------------------------------------------
+- CheckNumbers
+
+Parameters:
+    none
+
+Description:
+    check all element with name 'number'.
+
+Returns:
+    if successful, returns boolean true. 
+    otherwise returns false.
+
+--------------------------------------------------------------------------------------------------
+- CheckPasswords
+
+Parameters:
+    none
+
+Description:
+    check all element with name 'password', then executes checkPasswordChars function.
+
+Returns:
+    if successful, returns boolean true. 
+    otherwise returns false.
+
+--------------------------------------------------------------------------------------------------
+- CheckConfirmPasswords(fields, allEntry, confirmPassword)
+
+Parameters:
+    - fields                        // array of fields
+    - allEntry                      // object for of all devices
+    - confirmPassword               // retyped password for checking
+
+Description:
+    checks if the inputed string for fields with type password is the the same.
+
+Returns:
+    if successful, returns boolean true. 
+    otherwise returns false.
+
+--------------------------------------------------------------------------------------------------
+- checkPasswordChars(password)
+
+Parameters:
+    - password                        // string
+
+Description:
+    checks if the inputed string has a lower case letter, upper case letter and a number.
+
+Returns:
+    if successful, returns boolean true. 
+    otherwise returns false.

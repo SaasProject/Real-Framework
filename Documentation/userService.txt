@@ -1,0 +1,60 @@
+User  Service
+
+Author: Jenny Ayala
+Date Created: April 2018
+Last Modified: April 2018
+
+Prerequisites:
+mongoskin
+q
+email service
+
+
+
+1. getAll()
+ - retrieves all data from the users collection in the database.
+ 
+ Parameters: none
+ 
+ Return: on success - if the collection is empty returns an empty array, if not, returns an array of objects.
+		on error - returns the error
+		
+=====================================
+
+2. insert(userParam)
+ - adds new document to the users collection
+
+ Parameter: userParam - an object containing the information of the user to be added(e.g.email,name).
+ 
+ Description: The function checks first if the email is already in the database. If found, an error with a property exists set to true is returned.
+	Otherwise, a mail will be sent to that email containing the login credentials.
+ 
+	If the sending of mail was successful, the object will be inserted into the users collection.
+	If not, an error object with property invalid email set to true will be returned.
+ 
+	If the insertion to the database as encountered an error, the error will be returned, otherwise, nothing will be returned.
+ 
+=====================================
+
+3. update(_id, userParam)
+ - used to update the user info including the changing of password.
+ 
+ Parameters: _id - the id of the document to be updated
+			userParam - an object that contains the user information
+ 
+ Description/Returns: if userParam has a property oldPassword, the function compares its hash value to the password hash in the database.
+	If both hashes are the same, userParam.password(the new password set by the user) will be hashed and the document will be updated. Otherwise, an error with a property of incorrect set to true will be returned.
+	
+	If userParam doesn't have oldPassword as a property, the document will be updated without changing the current password.
+	
+	If the update is successful nothing will be returned. If not, the return would be the error.
+	
+=====================================
+
+4. _delete(_id)
+ Parameter: _id - the Object id of the document to be deleted.
+ 
+ Description: The function removes the corresponding document from the users collection.
+ 
+ Return: If operation is successful, nothing will be returned.
+		If there is an error, the error will be returned.

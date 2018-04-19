@@ -1,0 +1,53 @@
+Language Service
+
+Author: Alvin Glenn Flamiano
+Date Created: April 13, 2018
+Last Modified: April 13, 2018
+
+Prerequisites:
+- Node.js fs
+- mongoskin
+- q
+- db.bind('languages')
+
+How to use:
+add 'LanguageService' to controller prerequisites
+
+<script src="app-services/language.service.js"></script> 
+
+Methods:
+
+1. saveDefaultLanguage(option)
+
+ - changes the default language value in the defaultLanguage collection.
+ 
+ Parameters: option - The content of the value to be inserted to the defaultLanguage collection.
+ 
+ Return: on success - if the database is updated successfully, it returns an OK response, otherwise if there is any error in the operation, it returns an error
+		
+=====================================
+
+2. getDefaultLanguage()
+
+ - retrieves parsed json file based on the value of the default language in the defaultLanguage collection for front end display purposes.
+
+ Parameter: none
+ 
+ Returns: 
+ if the value of the defaultLanguage collection has a matching filename in the languages directory, it will read the matching file and it will be returned as a parsed json object
+ 
+ If the file cannot be found in the languages directory, it will read english.json file and it will returned as a parsed json object.
+ 
+=====================================
+
+3. getSpecificLanguage(user)
+ - retrieves the parsed language json file based on individual user language preference.
+ 
+ Parameters: user - the value of the user language preference. if the value is 'english' it returns a parsed english language json file as an object.
+
+ Returns: 
+ if the user language preference value has a matching filename in the languages directory, it will read the matching file and it will be returned as a parsed json object
+ 
+ If the file cannot be found in the languages directory, it will read english.json file and it will returned as a parsed json object.
+	
+=====================================

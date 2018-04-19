@@ -1,0 +1,86 @@
+<div class="col-sm-5">
+<div class="panel panel-primary">
+	<div class="panel-heading"><h4>{{selectedLanguage.fields.labels.customize}}</h4></div>
+    <div class="panel-body">
+    <div class="form-inline">
+        <!-- Module
+        <form class="form-inline" ng-submit="submit()">
+            <input type="text" class="form-control" ng-model="newModule.name">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form> -->
+        <select class="form-control" ng-model="module.name" ng-change="getModuleByName(); resetFlash()">
+            <option value="assets">{{selectedLanguage.fields.labels.asset}}</option>
+            <option value="rfid_scanners">{{selectedLanguage.fields.labels.rfid_scanner}}</option>
+            <option value="users">{{selectedLanguage.fields.labels.user}}</option>
+            <option value="warehouses">{{selectedLanguage.fields.labels.warehouse}}</option>
+        </select>
+        <hr>
+        <div>
+            <form class="form-group" ng-submit="saveField()">
+                <label>{{selectedLanguage.fields.labels.tableName + ':'}}</label><br>
+                <input type="text" class="form-control" ng-model="newField.name" required><br><br>
+                <input type="checkbox" ng-model="newField.required"> <b>{{selectedLanguage.fields.labels.required}}</b> <br>
+                <input type="checkbox" ng-model="newField.unique"> <b>{{selectedLanguage.fields.labels.unique}}</b><br><br>
+				<label class="form-check-label" for="typeDropdown">{{selectedLanguage.fields.labels.type}}</label><br>
+                <select class="form-control" ng-model="newField.type">
+                    <option value="text">{{selectedLanguage.fields.labels.text}}</option>
+                    <option value="number">{{selectedLanguage.fields.labels.number}}</option>
+                    <option value="email">{{selectedLanguage.fields.labels.email}}</option>
+                    <option value="password">{{selectedLanguage.fields.labels.password}}</option>
+                    <option value="textarea">{{selectedLanguage.fields.labels.textarea}}</option>
+                    <option value="checkbox">{{selectedLanguage.fields.labels.checkbox}}</option>
+                    <option value="dropdown">{{selectedLanguage.fields.labels.dropdown}}</option>
+                    <option value="radio">{{selectedLanguage.fields.labels.radio}}</option>
+                    <option value="date">{{selectedLanguage.fields.labels.date}}</option>
+                </select><br><br>
+                <!-- ng-show instead of ng-if -->
+                <div ng-show="hasOptions()">
+                    {{selectedLanguage.fields.labels.note1}}<br>
+                    <textarea class="form-control" rows="4" cols="40" ng-model="fieldOptions"></textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">{{selectedLanguage.commons.save}}</button>
+            </form>
+        </div>
+    </div>
+	</div>
+	</div>
+</div>
+    <div class="col-sm-7">
+	<div class="panel panel-success">
+        <div class="panel-heading"><h4>{{selectedLanguage.fields.labels[name]}}</h4></div>
+        <div class="panel-body">
+        <div class="flash-message" ng-if="flash" ng-show = "!changePasswordModal">
+            <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+        </div>
+        <table class="table">
+            <thead>
+                <th>{{selectedLanguage.fields.labels.tableName}}</th>
+                <th>{{selectedLanguage.fields.labels.required}}</th>
+                <th>{{selectedLanguage.fields.labels.unique}}</th>
+                <th>{{selectedLanguage.fields.labels.tableType}}</th>
+                <th></th>
+            </thead>
+            <tbody ui-sortable="sortableOptions" ng-model="module.fields">
+                <tr ng-repeat="field in module.fields" style="cursor:move">
+                    <td ng-bind="field.name" class='cutOverflow'></td>
+                    <td>{{selectedLanguage.fields.labels[(field.required) ? 'required' : 'notRequired']}}</td>
+                    <td>{{selectedLanguage.fields.labels[(field.unique) ? 'unique' : 'notUnique']}}</td>
+                    <td ng-bind="field.type"></td>
+                    <td>
+                        <div class="pull-right">
+                            <div ng-if="!field.default">
+                                <a style = "cursor:pointer"><i class="fa fa-list-alt" aria-hidden="true" ng-click="editField(field)" data-toggle="tooltip" title="{{selectedLanguage.commons.edit}}"></i><a>
+                                    |
+                                <a style = "cursor:pointer"><i class="fa fa-trash" aria-hidden="true" ng-click="deleteField(field)" data-toggle="tooltip" title="{{selectedLanguage.commons.delete}}"></i></a>
+                            </div>
+                            <text ng-if="field.default">{{selectedLanguage.fields.labels.default}}</text>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	</div>
+	</div>
+</div>

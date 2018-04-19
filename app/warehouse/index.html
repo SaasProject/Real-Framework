@@ -1,0 +1,183 @@
+<h2>{{selectedLanguage.warehouse.labels.header}}</h2>
+
+<div style = "text-align:center" class = "spinner" ng-show = "loading"> 
+        <img src="loader.gif"/>
+</div>
+
+<div ng-show="showMainFlash && !changePasswordModal" class="flash-message" ng-if="flash">
+    <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{selectedLanguage.warehouse.labels.modal_add}}</h4>
+        </div>
+        <div class="modal-body">
+        	<div id="addModalFlash" ng-show="showAddFlash" class="flash-message" ng-if="flash">
+				<div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+			</div>
+          	<form name = "AddForm" novalidate>
+						<div ng-repeat="field in fields">
+							<label  for=field.name>{{field.name}}: </label>
+							<span style = "color:red" ng-if="field.required">*</span>
+							
+							<!-- show input -->
+							<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="showInputType(field.type)" ng-model="whouse[field.name]" class="form-control" ng-required=field.required>
+							  
+							<!-- show date -->
+				          	<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="field.type=='date'" ng-model="tempDate" class="form-control addTicketDateInput" ng-required=field.required ng-change="pushDateToAllEntry(field.name, this.tempDate)">
+
+				          	<!-- show confirm password -->
+				          	<label ng-show="field.type=='password'" for=field.name>Confirm {{field.name}}: </label>
+				          	<input name="{{'confirm '+field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="field.type=='password'" ng-model="confirmPassword[field.name]" class="form-control">
+
+				          	<!-- show text area -->
+	  			          	<textarea data="{{field.type}}" ng-show="field.type=='textarea'" ng-model="whouse[field.name]" class="form-control" ng-required=field.required rows="4" cols="50"></textarea>
+
+				          	<!-- show checkbox -->
+				          	<div class="{{'checkBoxAdd '+field.name}}" name="checkBoxInput" ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='checkbox'">
+				          		<input class="{{option}}" type="checkbox" name="{{option}}" ng-model="optionSelected" data="{{option}}" ng-click="pushToAwhouse(field.name, option)">{{option}}<br>
+				          	</div>
+
+				          	<!-- show radio -->
+				          	<div ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='radio'">
+				          		<input class="{{option}}" type="radio" name="options" ng-model="radioSelected" ng-change="putToModel(option, field.name)" value="{{option}}">{{option}}<br>
+				          	</div>
+
+				          	<!-- show dropdown -->
+				          	<select class="form-control" data="{{field.type}}" ng-show="field.type=='dropdown'" ng-model="whouse[field.name]">
+								<option value="" ng-if="!field.required"></option>
+								<option ng-repeat="option in field.options">{{option}}</option>
+							</select>
+						</div>
+						<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span>{{selectedLanguage.commons.requiredLabel2}}</i></small>
+			</form>
+			</div>
+          	
+          	<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" ng-click="addWH(AddForm.$valid)">{{selectedLanguage.commons.save}}</button>
+				<button type="button" class="btn btn-danger" ng-click="vm.cancelEdit()" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
+			</div>
+      	</div>
+      
+    </div>
+  </div>
+  
+  
+    <!-- Modal for Edit Device -->
+  <div class="modal fade" id="editModal" role="dialog">
+		<div class="modal-dialog">
+		
+			<!-- Modal content-->
+			<div class="modal-content">
+			
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">{{selectedLanguage.warehouse.labels.modal_update}}</h4>
+				</div>
+        
+				<div class="modal-body">
+					<div id="addModalFlash" ng-show="showEditFlash" class="flash-message" ng-if="flash">
+        				<div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+					</div>
+					<form name = "EditForm" novalidate>
+						<div class="form-group" ng-repeat="field in fields">
+							<label  for=field.name>{{field.name}}: </label>
+							<span style = "color:red" ng-if="field.required">*</span>
+							
+	          				<p ng-show="field.type=='date' && unEditAble" ng-model="whouse[field.name]">{{whouse[field.name]}}</p>
+
+							<!-- show input -->
+							<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="showInputType(field.type)" ng-model="whouse[field.name]" class="form-control" ng-required=field.required ng-readonly="unEditAble || field.name == 'name'">
+							  
+							<!-- show date -->
+				          	<input name="{{field.type}}" data="{{field.type}}" type="{{field.type}}" ng-show="field.type=='date' && unEditAble == false" ng-model="tempDate" class="form-control addTicketDateInput" ng-required=field.required ng-readonly="unEditAble || field.name == 'name'" ng-change="pushDateToAllEntry(field.name, this.tempDate)">
+
+				          	<!-- show confirm password -->
+				          	<label ng-show="field.type=='password'" for=field.name>Confirm {{field.name}}: </label>
+				          	<input name="{{'confirm '+field.type}}" data="{{field.type}}" type="{{field.type=='password'?'password':'text';}}" ng-show="field.type=='password'" ng-model="confirmPassword[field.name]" class="form-control" ng-readonly="unEditAble || field.name == 'name'">
+
+				          	<!-- show text area -->
+	  			          	<textarea data="{{field.type}}" ng-show="field.type=='textarea'" ng-model="whouse[field.name]" class="form-control" ng-required=field.required ng-readonly="unEditAble || field.name == 'name'" rows="4" cols="50"></textarea>
+
+				          	<!-- show checkbox -->
+				          	<div class="{{'checkBoxAdd '+field.name}}" name="checkBoxInput" ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='checkbox'" ng-readonly="unEditAble || field.name == 'name'">
+				          		<input class="{{option}}" type="checkbox" name="{{option}}" ng-model="optionSelected" data="{{option}}" ng-click="pushToAwhouse(field.name, option)">{{option}}<br>
+				          	</div>
+
+				          	<!-- show radio -->
+				          	<div ng-repeat="option in field.options" data="{{field.type}}" ng-show="field.type=='radio'" ng-readonly="unEditAble || field.name == 'name'">
+				          		<input class="{{option}}" type="radio" name="options" ng-model="radioSelected" ng-change="putToModel(option, field.name)" value="{{option}}">{{option}}<br>
+				          	</div>
+
+				          	<!-- show dropdown -->
+				          	<select class="form-control" data="{{field.type}}" ng-show="field.type=='dropdown'" ng-model="whouse[field.name]" ng-readonly="unEditAble || field.name == 'name'">
+								<option value="" ng-if="!field.required"></option>
+								<option ng-repeat="option in field.options">{{option}}</option>
+							</select>
+						</div>
+						<div class = "form-group">
+							<label for = "quantity">Quantity</label>
+							<p class = "form-control" ng-bind = "whouse['quantity']" readonly>
+						</div>
+						
+						<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span>{{selectedLanguage.commons.requiredLabel2}}</i></small>
+					</form>
+				</div>
+		
+				<div class="modal-footer">
+					<button id="editDeviceButton" class = "btn btn-primary" ng-click="vm.editAble()" ng-show="unEditAble">{{selectedLanguage.commons.edit}}</button>
+					<button class = "btn btn-primary" ng-click="vm.updateWH(EditForm.$valid)" ng-hide="unEditAble">{{selectedLanguage.commons.save}}</button>
+					<button class= "btn btn-danger" ng-click="vm.cancelEdit()" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
+				</div>
+			</div>
+  		</div>
+	</div>
+
+<div class="panel" ng-hide = "loading">
+	<div class="row">
+		<div class="col-sm-3">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" ng-click="modifyDropdown(); declareSelected()">{{selectedLanguage.warehouse.labels.add}}</button>
+		</div>
+	</div>
+	<div class="row">
+		<br/>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+            <label for="search">{{selectedLanguage.commons.search}}</label>
+            <input id="search" type="text" ng-model="search" class="form-control">           
+		</div>
+		<div class="col-sm-3">
+		    <label for="pageSize">{{selectedLanguage.commons.itemsPerPage}}</label>
+			<input id="pageSize" type="number" ng-model="pageSize" class="form-control" min="1" max={{warehouses.length}}> 
+		</div> 
+	</div>
+</div>
+<div class="panel" ng-hide = "loading">
+	<table class="table table-striped table-condensed table-hover">
+		<thread>
+			<tr>
+				<th ng-repeat="field in fields" ng-click='sortColumn(field.name)' ng-class='sortClass(field.name)' class="cutOverflow">{{field.name}}</th>
+				<th ng-click = "sortColumn('quantity')" ng-class="sortClass('quantity')">quantity</th>
+			</tr>
+		</thread>
+		<tbody>
+			<tr ng-repeat="wh in warehouses | orderObjectBy : column : reverse | filter : search | pagination: (currentPage - 1) * pageSize | limitTo: pageSize ">
+				<td class="cutOverflow" ng-repeat="field in fields">{{wh[field.name]}}</td>
+				<td class = "cutOverflow">{{wh.quantity}}</td>
+				<td>
+					<a><i class="fa fa-list-alt" aria-hidden="true" data-toggle = "modal" data-target = "#editModal" ng-click="editWH(wh._id); declareSelected()" data-toggle="tooltip" title="{{selectedLanguage.commons.viewDetails}}"></i><a>
+					|
+					<a><i class="fa fa-trash" aria-hidden="true" ng-click="deleteWH(wh._id)" data-toggle="tooltip" title="{{selectedLanguage.commons.delete}}"></i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<ul uib-pagination total-items="warehouseLength" ng-model="currentPage" items-per-page="pageSize" boundary-links="true" max-size="4" force-ellipses="true" first-text="<<" previous-text="<" next-text=">" last-text=">>"></ul>
+</div>
